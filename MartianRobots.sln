@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{CE2E897C-B5FC-4CE2-807A-0DD0B2362E97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{00C81B4F-0E26-4203-9EC8-187CBC2E3CF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfrastructureEF", "InfrastructureEF\InfrastructureEF.csproj", "{00C81B4F-0E26-4203-9EC8-187CBC2E3CF0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{052477FB-C3D8-4971-AE92-6AEC8CFB33BA}"
 EndProject
