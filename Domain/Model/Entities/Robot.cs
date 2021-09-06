@@ -19,6 +19,21 @@ namespace Domain.Model.Entities
 
         public virtual Position Position { get; set; }
 
-        public virtual ICollection<Route> Routes {get; set;}        
+        public virtual ICollection<Route> Routes {get; set;}
+
+        public void MoveLeft()
+        {
+
+        }
+
+        public void MoveRight()
+        {
+
+        }
+
+        public void MoveForward()
+        {
+
+        }
     }
 }
