@@ -20,5 +20,20 @@ namespace Domain.Model.Entities
 
         public virtual Command Command { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Route route &&
+                   RobotId == route.RobotId &&
+                   PositionId == route.PositionId &&
+                   CommandId == route.CommandId &&
+                   EqualityComparer<Robot>.Default.Equals(Robot, route.Robot) &&
+                   EqualityComparer<Position>.Default.Equals(Position, route.Position) &&
+                   EqualityComparer<Command>.Default.Equals(Command, route.Command);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(RobotId, PositionId, CommandId, Robot, Position, Command);
+        }
     }
 }

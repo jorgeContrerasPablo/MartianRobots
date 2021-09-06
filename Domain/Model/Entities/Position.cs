@@ -47,5 +47,16 @@ namespace Domain.Model.Entities
         {
             Y += oneCoordinate;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Position position &&
+                   X == position.X &&
+                   Y == position.Y &&
+                   DirectionId == position.DirectionId &&
+                   EqualityComparer<Direction>.Default.Equals(Direction, position.Direction) &&
+                   EqualityComparer<ICollection<Route>>.Default.Equals(Routes, position.Routes) &&
+                   EqualityComparer<ICollection<Robot>>.Default.Equals(Robots, position.Robots);
+        }
     }
 }

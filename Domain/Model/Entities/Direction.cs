@@ -53,5 +53,18 @@ namespace Domain.Model.Entities
                 _ => throw new NotImplementedException(),
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Direction direction &&
+                   Name == direction.Name &&
+                   Description == direction.Description &&
+                   EqualityComparer<ICollection<Position>>.Default.Equals(Positions, direction.Positions);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Description, Positions);
+        }
     }
 }

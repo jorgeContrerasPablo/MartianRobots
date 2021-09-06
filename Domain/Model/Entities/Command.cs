@@ -24,6 +24,11 @@ namespace Domain.Model.Entities
             Routes = new HashSet<Route>();
         }
 
+        public Command(Type type) : this()
+        {
+            CommandId = (int) type;
+        }
+
         public int CommandId { get; set; }
 
         public string Name { get; set; }

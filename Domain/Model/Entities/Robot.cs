@@ -9,7 +9,13 @@ namespace Domain.Model.Entities
         public Robot()
         {
             Routes = new HashSet<Route>();
-        }       
+        }
+
+        public Robot(Position position) : this()
+        {
+            Position = position;
+
+        }
 
         public int RobotId { get; set; }
 
@@ -50,6 +56,20 @@ namespace Domain.Model.Entities
                 default:
                     break;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Robot robot &&
+                   PositionId == robot.PositionId &&
+                   CreatedTime == robot.CreatedTime &&
+                   EqualityComparer<Position>.Default.Equals(Position, robot.Position) &&
+                   EqualityComparer<ICollection<Route>>.Default.Equals(Routes, robot.Routes);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(PositionId, CreatedTime, Position, Routes);
         }
     }
 }

@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ServiceLayer;
+using ServiceLayer.IRepositories;
+using ServiceLayer.IService;
 
 namespace ApiRest
 {
@@ -34,6 +37,12 @@ namespace ApiRest
                 options.UseNpgsql(Configuration.GetConnectionString("DatabaseConection"),
                     optionsBuilder => optionsBuilder.MigrationsAssembly(nameof(InfrastructureEF)));
             });
+
+            services.AddScoped<IWorldService, WorldService>();
+            services.AddScoped<IRobotRepository, RobotRepository>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
+            services.AddScoped<IRouteRepository, RouteRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

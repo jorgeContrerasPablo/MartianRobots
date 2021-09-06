@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InfrastructureEF.Repositories
+namespace ServiceLayer.IRepositories
 {
-    public interface IRobotRepository
+    public interface IRouteRepository
     {
     }
 }
