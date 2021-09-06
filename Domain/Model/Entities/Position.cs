@@ -6,6 +6,7 @@ namespace Domain.Model.Entities
 {
     public class Position
     {
+        const int oneCoordinate = 1;
 
         public Position()
         {
@@ -26,5 +27,25 @@ namespace Domain.Model.Entities
         public virtual ICollection<Route> Routes { get; set; }
 
         public virtual ICollection<Robot> Robots { get; set; }
+
+        internal void BackOneX()
+        {
+            X -= oneCoordinate;
+        }
+
+        internal void AdvanceOneX()
+        {
+            X += oneCoordinate;
+        }
+
+        internal void BackOneY()
+        {
+            Y -= oneCoordinate;
+        }
+
+        internal void AdvanceOneY()
+        {
+            Y += oneCoordinate;
+        }
     }
 }

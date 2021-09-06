@@ -1,4 +1,5 @@
 using Domain.Model.Entities;
+using FluentAssertions;
 using System;
 using Xunit;
 
@@ -19,7 +20,7 @@ namespace DomainUnitTest
 
             robot.MoveLeft();
 
-            CheckRobot(robot, outDirection, outX, outY);
+            CheckRobot(robot, outDirection, outX, outY).Should().BeTrue();
         }
 
 
@@ -35,7 +36,7 @@ namespace DomainUnitTest
 
             robot.MoveRight();
 
-            CheckRobot(robot, outDirection, outX, outY);
+            CheckRobot(robot, outDirection, outX, outY).Should().BeTrue();
         }
 
 
@@ -51,7 +52,7 @@ namespace DomainUnitTest
 
             robot.MoveForward();
 
-            CheckRobot(robot, outDirection, outX, outY);
+            CheckRobot(robot, outDirection, outX, outY).Should().BeTrue();
         }
 
         private Robot CreateRobot(Direction.Type inDirection, int inX, int inY)
@@ -63,6 +64,10 @@ namespace DomainUnitTest
                     X = inX,
                     Y = inY,
                     DirectionId = (int)inDirection,
+                    Direction = new Direction()
+                    {
+                        DirectionId = (int)inDirection,
+                    }
                 },
             };
 
@@ -71,7 +76,7 @@ namespace DomainUnitTest
 
         private bool CheckRobot(Robot robot, Direction.Type outDirection, int outX, int outY)
         {
-            bool sameDirection = robot.Position.DirectionId == (int)outDirection;
+            bool sameDirection = robot.Position.Direction.DirectionId == (int)outDirection;
             bool sameX = robot.Position.X == outX;
             bool sameY = robot.Position.Y == outY;
 

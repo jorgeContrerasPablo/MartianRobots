@@ -23,17 +23,33 @@ namespace Domain.Model.Entities
 
         public void MoveLeft()
         {
-
+            Position.Direction.ChangeLeft();
         }
 
         public void MoveRight()
         {
-
+            Position.Direction.ChangRight();
         }
 
         public void MoveForward()
         {
-
+            switch (Position.DirectionId)
+            {
+                case (int)Direction.Type.N:
+                    Position.AdvanceOneY();
+                    break;
+                case (int)Direction.Type.S:
+                    Position.BackOneY();
+                    break;
+                case (int)Direction.Type.E:
+                    Position.AdvanceOneX();
+                    break;
+                case (int)Direction.Type.W:
+                    Position.BackOneX();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -29,5 +29,29 @@ namespace Domain.Model.Entities
         public string Description { get; set; }
 
         public virtual ICollection<Position> Positions{ get; set; }
+
+        public void ChangeLeft()
+        {
+            DirectionId = DirectionId switch
+            {
+                (int)Type.N => (int)Type.W,
+                (int)Type.S => (int)Type.E,
+                (int)Type.E => (int)Type.N,
+                (int)Type.W => (int)Type.S,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        public void ChangRight()
+        {
+            DirectionId = DirectionId switch
+            {
+                (int)Type.N => (int)Type.E,
+                (int)Type.S => (int)Type.W,
+                (int)Type.E => (int)Type.S,
+                (int)Type.W => (int)Type.N,
+                _ => throw new NotImplementedException(),
+            };
+        }
     }
 }
