@@ -6,13 +6,24 @@ namespace Domain.Model.Entities
 {
     public class Route
     {
+        public Route()
+        {
+        }
+
+        public Route(Robot robot, Command command)
+        {
+            RobotId = robot.RobotId;
+            PositionId = robot.PositionId;
+            CommandId = command?.CommandId;
+        }
+
         public int RouteId { get; set; }
 
         public int RobotId { get; set; }
 
         public int PositionId { get; set; }
 
-        public int CommandId { get; set; }
+        public int? CommandId { get; set; }
 
         public virtual Robot Robot { get; set; }
 

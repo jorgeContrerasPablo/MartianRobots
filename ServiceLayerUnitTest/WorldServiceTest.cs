@@ -20,7 +20,7 @@ namespace ServiceLayerUnitTest
             Mock<IRobotRepository> mockRobotRepository = new Mock<IRobotRepository>();
             Mock<IRouteRepository> mockRoutRepository = new Mock<IRouteRepository>();
             Mock<IPositionRepository> mockPositionRepository = new Mock<IPositionRepository>();
-            _worldService = new WorldService(mockRobotRepository.Object, mockPositionRepository.Object, mockRoutRepository.Object);
+            _worldService = null;//new WorldService(mockRobotRepository.Object, mockPositionRepository.Object, mockRoutRepository.Object);
         }
 
         [Fact]

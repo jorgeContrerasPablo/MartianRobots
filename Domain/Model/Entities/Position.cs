@@ -15,13 +15,20 @@ namespace Domain.Model.Entities
             Robots = new HashSet<Robot>();
         }
 
+        public Position(int x, int y, int? directionId) : this()
+        {
+            X = x;
+            Y = y;
+            DirectionId = directionId;
+        }
+
         public int PositionId { get; set; }
 
         public int X { get; set; }
 
         public int Y { get; set; }
 
-        public int DirectionId { get; set; }
+        public int? DirectionId { get; set; }
 
         public virtual Direction Direction { get; set; }
 

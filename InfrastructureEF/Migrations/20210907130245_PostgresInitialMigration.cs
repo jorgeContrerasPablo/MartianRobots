@@ -44,7 +44,7 @@ namespace InfrastructureEF.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     X = table.Column<int>(type: "integer", nullable: false),
                     Y = table.Column<int>(type: "integer", nullable: false),
-                    DirectionId = table.Column<int>(type: "integer", nullable: false)
+                    DirectionId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,7 @@ namespace InfrastructureEF.Migrations
                         column: x => x.DirectionId,
                         principalTable: "Directions",
                         principalColumn: "DirectionId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,20 +81,21 @@ namespace InfrastructureEF.Migrations
                 name: "Routes",
                 columns: table => new
                 {
-                    RouteId = table.Column<int>(type: "integer", nullable: false),
+                    RouteId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RobotId = table.Column<int>(type: "integer", nullable: false),
                     PositionId = table.Column<int>(type: "integer", nullable: false),
-                    CommandId = table.Column<int>(type: "integer", nullable: false)
+                    CommandId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Routes", x => x.RouteId);
                     table.ForeignKey(
                         name: "FK_Route_Command",
-                        column: x => x.RouteId,
+                        column: x => x.CommandId,
                         principalTable: "Commands",
                         principalColumn: "CommandId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Route_Position",
                         column: x => x.PositionId,
@@ -139,6 +140,11 @@ namespace InfrastructureEF.Migrations
                 name: "IX_Robots_PositionId",
                 table: "Robots",
                 column: "PositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Routes_CommandId",
+                table: "Routes",
+                column: "CommandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Routes_PositionId",

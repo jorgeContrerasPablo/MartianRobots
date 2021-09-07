@@ -55,7 +55,7 @@ namespace Domain.Model.Entities
             };
         }
 
-        public Type GetTypeByName(string typeName)
+        public static Type GetTypeByName(string typeName)
         {
             return Enum.Parse<Type>(typeName);
         }

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InfrastructureEF.Migrations
 {
     [DbContext(typeof(MartianContext))]
-    [Migration("20210906072541_PostgresInitialMigration")]
+    [Migration("20210907130245_PostgresInitialMigration")]
     partial class PostgresInitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,7 +116,7 @@ namespace InfrastructureEF.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("DirectionId")
+                    b.Property<int?>("DirectionId")
                         .HasColumnType("integer");
 
                     b.Property<int>("X")
@@ -155,9 +155,11 @@ namespace InfrastructureEF.Migrations
             modelBuilder.Entity("Domain.Model.Entities.Route", b =>
                 {
                     b.Property<int>("RouteId")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CommandId")
+                    b.Property<int?>("CommandId")
                         .HasColumnType("integer");
 
                     b.Property<int>("PositionId")
@@ -167,6 +169,8 @@ namespace InfrastructureEF.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("RouteId");
+
+                    b.HasIndex("CommandId");
 
                     b.HasIndex("PositionId");
 
@@ -180,9 +184,7 @@ namespace InfrastructureEF.Migrations
                     b.HasOne("Domain.Model.Entities.Direction", "Direction")
                         .WithMany("Positions")
                         .HasForeignKey("DirectionId")
-                        .HasConstraintName("FK_Position_Direction")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Position_Direction");
 
                     b.Navigation("Direction");
                 });
@@ -201,6 +203,11 @@ namespace InfrastructureEF.Migrations
 
             modelBuilder.Entity("Domain.Model.Entities.Route", b =>
                 {
+                    b.HasOne("Domain.Model.Entities.Command", "Command")
+                        .WithMany("Routes")
+                        .HasForeignKey("CommandId")
+                        .HasConstraintName("FK_Route_Command");
+
                     b.HasOne("Domain.Model.Entities.Position", "Position")
                         .WithMany("Routes")
                         .HasForeignKey("PositionId")
@@ -212,13 +219,6 @@ namespace InfrastructureEF.Migrations
                         .WithMany("Routes")
                         .HasForeignKey("RobotId")
                         .HasConstraintName("FK_Route_Robot")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Model.Entities.Command", "Command")
-                        .WithMany("Routes")
-                        .HasForeignKey("RouteId")
-                        .HasConstraintName("FK_Route_Command")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

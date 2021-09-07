@@ -15,18 +15,21 @@ namespace ServiceLayerUnitTest
     public class CommandServieTest
     {
         private readonly CommandService _commandService;
+        private readonly Mock<ICommandRepository> _mockCommandRepository;
 
         public CommandServieTest()
         {
-            Mock<ICommandRepository> mockCommandRepository = new Mock<ICommandRepository>();
-            _commandService = new CommandService(mockCommandRepository.Object);
+            _mockCommandRepository = new Mock<ICommandRepository>();
+            _commandService = new CommandService(_mockCommandRepository.Object);
+            _mockCommandRepository.Setup(core => core.GetById(1)).Returns(new Command(Command.Type.L));
+            _mockCommandRepository.Setup(core => core.GetById(2)).Returns(new Command(Command.Type.R));
+            _mockCommandRepository.Setup(core => core.GetById(3)).Returns(new Command(Command.Type.F));
         }
 
         [Fact]
         public void GetCommands()
         {
             string initCommands = "FRRFLLFFRRFLL";
-
             List<Command> commandsExpected = new List<Command>
             {
                 new Command(Command.Type.F),

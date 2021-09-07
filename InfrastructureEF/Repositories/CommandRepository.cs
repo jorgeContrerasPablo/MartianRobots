@@ -1,4 +1,5 @@
 ﻿using Domain.Model.Entities;
+using Microsoft.Extensions.Configuration;
 using ServiceLayer.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace InfrastructureEF.Repositories
 {
     public class CommandRepository : GenericRepository<Command>, ICommandRepository
     {
-        public CommandRepository(MartianContext context) : base(context)
+        public CommandRepository(IConfiguration configuration) : base(configuration)
         {
         }
     }

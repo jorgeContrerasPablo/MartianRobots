@@ -23,19 +23,10 @@ namespace ServiceLayer
             try
             {
                 char[] commandsSplited = inputCommandsDto.Commands.ToCharArray();
-                foreach (char command in commandsSplited)
+                foreach (char commandLetter in commandsSplited)
                 {
-                    if (char.IsLetter(command))
-                    {
-                        // TODO Get from database
-                        Command newCommand = new Command();
-                        newCommand.CommandId = (int)newCommand.GetTypeByName(command.ToString());
-                        returnedCommands.Add(newCommand);
-                    }
-                    else
-                    {
-                        throw new CommandNotImplementedException(command.ToString());
-                    }
+                    Command command = GetCommand(commandLetter);
+                    returnedCommands.Add(command);
                 }
             }
             catch (ArgumentException argumentException)
@@ -45,6 +36,21 @@ namespace ServiceLayer
             }
 
             return returnedCommands;
+        }
+
+        private Command GetCommand(char commandLetter)
+        {
+            Command newCommand;
+            if (char.IsLetter(commandLetter))
+            {
+                int commandId = (int)Command.GetTypeByName(commandLetter.ToString());
+                newCommand = _commandRepository.GetById(commandId);
+            }
+            else
+            {
+                throw new CommandNotImplementedException(commandLetter.ToString());
+            }
+            return newCommand;
         }
     }
 }

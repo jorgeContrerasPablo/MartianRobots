@@ -2,6 +2,7 @@ using InfrastructureEF.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,22 +31,21 @@ namespace API
             if (_environment.IsProduction())
             {
                 services.AddDbContext<MartianContext>(options =>
-                {
                     options.UseNpgsql(Configuration.GetConnectionString("DatabaseConection"),
-                        optionsBuilder => optionsBuilder.MigrationsAssembly(nameof(InfrastructureEF)));
-                });
+                        optionsBuilder => optionsBuilder.MigrationsAssembly(nameof(InfrastructureEF))));
             }
 
             //Repostories
-            services.AddScoped<IRobotRepository, RobotRepository>();
-            services.AddScoped<IPositionRepository, PositionRepository>();
-            services.AddScoped<IRouteRepository, RouteRepository>();
-            services.AddScoped<ICommandRepository, CommandRepository>();
+            services.AddSingleton<IRobotRepository, RobotRepository>();
+            services.AddSingleton<IPositionRepository, PositionRepository>();
+            services.AddSingleton<IRouteRepository, RouteRepository>();
+            services.AddSingleton<ICommandRepository, CommandRepository>();
 
-            var a = _environment.EnvironmentName;
             //Service
             services.AddSingleton<IWorldService, WorldService>();
-            services.AddScoped<ICommandService, CommandService>();
+            services.AddSingleton<ICommandService, CommandService>();
+            services.AddSingleton<IMemoryCache, MemoryCache>();
+
 
         }
 

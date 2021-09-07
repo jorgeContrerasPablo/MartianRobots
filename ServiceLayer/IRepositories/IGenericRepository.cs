@@ -6,6 +6,10 @@ namespace ServiceLayer.IRepositories
 {
     public interface IGenericRepository<T> where T : class
     {
-        void Add(T entity);
+        T AddAsync(T entity);
+
+        IEnumerable<T> GetAll();
+
+        T GetById(int id);
     }
 }

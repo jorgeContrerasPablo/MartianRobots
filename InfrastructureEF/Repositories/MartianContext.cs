@@ -118,7 +118,7 @@ namespace InfrastructureEF.Repositories
 
                 entity.Property(e => e.RobotId);
 
-                entity.Property(e => e.RouteId);                      
+                entity.Property(e => e.CommandId);                      
 
                 entity.HasOne(e => e.Robot)
                 .WithMany(p => p.Routes)
@@ -132,7 +132,7 @@ namespace InfrastructureEF.Repositories
 
                 entity.HasOne(e => e.Command)
                 .WithMany(p => p.Routes)
-                .HasForeignKey(d => d.RouteId)
+                .HasForeignKey(d => d.CommandId)
                 .HasConstraintName("FK_Route_Command");
             });
         }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Domain.Model;
 using Domain.Model.Entities;
@@ -31,7 +33,7 @@ namespace API.Controllers
         [HttpPut("startworld")]
         public void StartWorld([FromBody] InputPositionDto inputPositionDto)
         {
-            _worldService.StartWorld(inputPositionDto);
+            _worldService.StartWorld(inputPositionDto);            
         }
 
         [HttpPut("startrobot")]

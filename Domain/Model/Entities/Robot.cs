@@ -14,8 +14,8 @@ namespace Domain.Model.Entities
 
         public Robot(Position position) : this()
         {
-            Position = position;
-
+            PositionId = position.PositionId;
+            CreatedTime = DateTime.UtcNow;
         }
 
         public int RobotId { get; set; }
