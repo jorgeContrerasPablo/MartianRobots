@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Domain.Model.Entities
@@ -55,8 +56,13 @@ namespace Domain.Model.Entities
                    Y == position.Y &&
                    DirectionId == position.DirectionId &&
                    EqualityComparer<Direction>.Default.Equals(Direction, position.Direction) &&
-                   EqualityComparer<ICollection<Route>>.Default.Equals(Routes, position.Routes) &&
-                   EqualityComparer<ICollection<Robot>>.Default.Equals(Robots, position.Robots);
+                   Routes.SequenceEqual(position.Routes) &&
+                   Robots.SequenceEqual(position.Robots);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X, Y, DirectionId, Direction, Routes, Robots);
         }
     }
 }

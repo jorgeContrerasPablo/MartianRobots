@@ -1,47 +1,51 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using InfrastructureEF.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using ServiceLayer;
 using ServiceLayer.IRepositories;
 using ServiceLayer.IService;
 
-namespace ApiRest
+namespace API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            services.AddDbContext<MartianContext>(options =>
+            if (_environment.IsProduction())
             {
-                options.UseNpgsql(Configuration.GetConnectionString("DatabaseConection"),
-                    optionsBuilder => optionsBuilder.MigrationsAssembly(nameof(InfrastructureEF)));
-            });
+                services.AddDbContext<MartianContext>(options =>
+                {
+                    options.UseNpgsql(Configuration.GetConnectionString("DatabaseConection"),
+                        optionsBuilder => optionsBuilder.MigrationsAssembly(nameof(InfrastructureEF)));
+                });
+            }
 
-            services.AddScoped<IWorldService, WorldService>();
+            //Repostories
             services.AddScoped<IRobotRepository, RobotRepository>();
             services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
+            services.AddScoped<ICommandRepository, CommandRepository>();
+
+            var a = _environment.EnvironmentName;
+            //Service
+            services.AddSingleton<IWorldService, WorldService>();
+            services.AddScoped<ICommandService, CommandService>();
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Domain.Model.Entities
@@ -54,12 +55,17 @@ namespace Domain.Model.Entities
             };
         }
 
+        public Type GetTypeByName(string typeName)
+        {
+            return Enum.Parse<Type>(typeName);
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Direction direction &&
                    Name == direction.Name &&
                    Description == direction.Description &&
-                   EqualityComparer<ICollection<Position>>.Default.Equals(Positions, direction.Positions);
+                   Positions.SequenceEqual(direction.Positions);
         }
 
         public override int GetHashCode()

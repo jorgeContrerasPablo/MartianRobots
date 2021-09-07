@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Domain.Model.Entities
@@ -39,7 +40,7 @@ namespace Domain.Model.Entities
 
         public void MoveForward()
         {
-            switch (Position.DirectionId)
+            switch (Position.Direction.DirectionId)
             {
                 case (int)Direction.Type.N:
                     Position.AdvanceOneY();
@@ -64,7 +65,7 @@ namespace Domain.Model.Entities
                    PositionId == robot.PositionId &&
                    CreatedTime == robot.CreatedTime &&
                    EqualityComparer<Position>.Default.Equals(Position, robot.Position) &&
-                   EqualityComparer<ICollection<Route>>.Default.Equals(Routes, robot.Routes);
+                   Routes.SequenceEqual(robot.Routes);
         }
 
         public override int GetHashCode()

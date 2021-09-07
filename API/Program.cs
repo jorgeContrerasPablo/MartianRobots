@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ApiRest
+namespace API
 {
     public class Program
     {
@@ -20,6 +20,7 @@ namespace ApiRest
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseEnvironment("Production");
                     webBuilder.UseStartup<Startup>();
                 });
     }

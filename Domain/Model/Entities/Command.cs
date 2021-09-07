@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Domain.Model.Entities
@@ -36,5 +37,23 @@ namespace Domain.Model.Entities
         public string Description { get; set; }
 
         public virtual ICollection<Route> Routes { get; set; }
+
+        public Type GetTypeByName(string typeName)
+        {
+            return Enum.Parse<Type>(typeName);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Command command &&
+                   Name == command.Name &&
+                   Description == command.Description &&
+                   Routes.SequenceEqual(command.Routes);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Description, Routes);
+        }
     }
 }

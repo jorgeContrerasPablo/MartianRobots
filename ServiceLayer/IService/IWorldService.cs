@@ -9,10 +9,10 @@ namespace ServiceLayer.IService
 {
     public interface IWorldService
     {
-        public void StartWorld(Position finalPosition, World world);
+        public void StartWorld(InputPositionDto finalPosition);
 
-        public void StartRobot(Position position, World world);
+        public void StartRobot(InputPositionDto position);
 
-        public FinalPositionDto MoveRobot(List<Command> commands, World world);
+        public FinalPositionDto MoveRobot(List<Command> commands);
     }
 }

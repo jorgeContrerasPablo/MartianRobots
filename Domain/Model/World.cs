@@ -8,13 +8,7 @@ namespace Domain.Model
     public class World
     {
         public World()
-        {            
-        }
-
-        public World(Position finalPosition)
         {
-            FinalPosition = finalPosition;
-            Scent = new List<Position>();
         }
 
         public Position FinalPosition { get; set; }
@@ -22,5 +16,12 @@ namespace Domain.Model
         public Robot ActualRobot { get; set; }
 
         public List<Position> Scent { get; set; }
+
+        public void StartWorld(Position finalPosition)
+        {
+            FinalPosition = finalPosition;
+            Scent = new List<Position>();
+            ActualRobot = null;
+        }
     }
 }

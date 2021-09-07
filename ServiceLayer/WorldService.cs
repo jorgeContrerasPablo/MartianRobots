@@ -10,12 +10,14 @@ namespace ServiceLayer
 {
     public class WorldService : IWorldService
     {
+        private World _world;
+
         public WorldService(IRobotRepository robotRepository, IPositionRepository positionRepository, IRouteRepository routeRepository)
         {
 
         }
 
-        public FinalPositionDto MoveRobot(List<Command> commands, World world)
+        public FinalPositionDto MoveRobot(List<Command> commands)
         {
             bool isLost = false;
             foreach (Command command in commands)
@@ -23,13 +25,13 @@ namespace ServiceLayer
                 switch (command.CommandId)
                 {
                     case (int)Command.Type.L:
-                        world.ActualRobot.MoveLeft();
+                        _world.ActualRobot.MoveLeft();
                         break;
                     case (int)Command.Type.R:
-                        world.ActualRobot.MoveRight();
+                        _world.ActualRobot.MoveRight();
                         break;
                     case (int)Command.Type.F:
-                        world.ActualRobot.MoveForward();
+                        _world.ActualRobot.MoveForward();
                         break;
                     default:
                         break;
@@ -37,22 +39,41 @@ namespace ServiceLayer
                 //Is Scent?
                 //Save route
             }
-            return new FinalPositionDto(world.ActualRobot.Position, isLost);
+            return new FinalPositionDto(_world.ActualRobot.Position, isLost);
         }
 
-        public void StartRobot(Position position, World world)
+        public void StartRobot(InputPositionDto positionDto)
         {
+            // Get Position or create
+            int directionId = (int)new Direction().GetTypeByName(positionDto.Direction);
+            Position position = new Position()
+            {
+                X = positionDto.X,
+                Y = positionDto.Y,
+                Direction = new Direction()
+                {
+                    DirectionId = directionId,
+                }
+            };
             Robot robot = new Robot(position);
-            world.ActualRobot = robot;
+            _world.ActualRobot = robot;
             //Save robot
             //Save route
         }
 
-        public void StartWorld(Position finalPosition, World world)
+        public void StartWorld(InputPositionDto finalPositionDto)
         {
-            world.FinalPosition = finalPosition;
-            world.Scent = new List<Position>();
-            world.ActualRobot = null;
+
+            _world = new World();
+            // Get Position or create
+            Position finalPosition = new Position()
+            {
+                X = finalPositionDto.X,
+                Y = finalPositionDto.Y,
+            };
+            _world.FinalPosition =  finalPosition;
+            _world.Scent = new List<Position>();
+            _world.ActualRobot = null;
         }
     }
 }
